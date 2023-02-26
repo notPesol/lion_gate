@@ -1,12 +1,14 @@
 const express = require("express");
 const router = express.Router();
-const Stage = require("../models/Stage");
+const RoundToShow = require("../models/RoundToShow");
 
-// Get Stage List
+// Get Row To Show List
 router.get("/", async (req, res, next) => {
   const response = { ok: true };
   try {
-    const result = await Stage.find().exec();
+    const result = await RoundToShow.find()
+      .populate([{ path: "animal" }, { path: "stage" }])
+      .exec();
     response.payload = result;
   } catch (error) {
     response.ok = false;
@@ -16,14 +18,16 @@ router.get("/", async (req, res, next) => {
   res.json(response);
 });
 
-// Get Stage By Id
+// Get Round To Show By Id
 router.get("/:id", async (req, res, next) => {
   const response = { ok: true };
   const { id } = req.params;
   try {
-    const result = await Stage.findById(id).exec();
+    const result = await RoundToShow.findById(id)
+      .populate([{ path: "animal" }, { path: "stage" }])
+      .exec();
     if (!result) {
-      throw new Error(`Stage not found!, id: ${id}`);
+      throw new Error(`Round To Show not found!, id: ${id}`);
     }
     response.payload = result;
   } catch (error) {
@@ -34,12 +38,12 @@ router.get("/:id", async (req, res, next) => {
   res.json(response);
 });
 
-// Create Stage
+// Create Round To Show
 router.post("/", async (req, res, next) => {
   const response = { ok: true };
 
   try {
-    const newStage = new Stage(req.body);
+    const newStage = new RoundToShow(req.body);
     await newStage.save();
     response.payload = newStage;
   } catch (error) {
@@ -50,14 +54,14 @@ router.post("/", async (req, res, next) => {
   res.json(response);
 });
 
-// Update Stage By Id
+// Update Round To Show By Id
 router.put("/:id", async (req, res, next) => {
   const response = { ok: true };
   const { id } = req.params;
   try {
-    const animal = await Stage.findByIdAndUpdate(id, req.body);
+    const animal = await RoundToShow.findByIdAndUpdate(id, req.body);
     if (!animal) {
-      throw new Error(`Stage not found!, id: ${id}`);
+      throw new Error(`Round To Show not found!, id: ${id}`);
     }
     response.payload = animal;
   } catch (error) {
@@ -68,14 +72,14 @@ router.put("/:id", async (req, res, next) => {
   res.json(response);
 });
 
-// Delete Stage By Id
+// Delete Round To Show By Id
 router.delete("/:id", async (req, res, next) => {
   const response = { ok: true };
   const { id } = req.params;
   try {
-    const animal = await Stage.findByIdAndDelete(id);
+    const animal = await RoundToShow.findByIdAndDelete(id);
     if (!animal) {
-      throw new Error(`Stage not found!, id: ${id}`);
+      throw new Error(`Round To Show not found!, id: ${id}`);
     }
     response.payload = animal;
   } catch (error) {

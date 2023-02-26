@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const stageSchema = new Schema({
-  stageNo: Number,
+  no: Number,
   seatAmount: Number,
   price: Number
 })
