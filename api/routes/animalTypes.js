@@ -32,4 +32,22 @@ router.post("/", async (req, res, next) => {
   res.json(response);
 });
 
+// Delete Animal Type By Id
+router.delete("/:id", async (req, res, next) => {
+  const response = { ok: true };
+  const {id} = req.params;
+  try {
+    const animalType = await AnimalType.findByIdAndDelete(id);
+    if (!animalType) {
+      throw new Error(`Animal type not found!, id: ${id}`)
+    }
+    response.payload = animalType
+  } catch (error) {
+    response.ok = false;
+    response.message = error.message;
+  }
+
+  res.json(response);
+});
+
 module.exports = router;

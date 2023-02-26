@@ -9,6 +9,7 @@ const { connectToDatabase } = require("./utils/db");
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const animalsRouter = require('./routes/animals');
+const stagesRouter = require('./routes/stages');
 const animalTypesRouter = require('./routes/animalTypes');
 
 connectToDatabase();
@@ -24,6 +25,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/animals', animalsRouter);
+app.use('/stages', stagesRouter);
 app.use('/animalTypes', animalTypesRouter);
 
 // catch 404 and forward to error handler

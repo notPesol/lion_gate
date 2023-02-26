@@ -14,7 +14,10 @@ const showSchema = new Schema({
     type: mongoose.Types.ObjectId,
     ref: 'stage'
   },
-  startTime: Date
+  time: {
+    type: String,
+    required: true
+  }
 })
 
 module.exports = mongoose.model('round', showSchema);
