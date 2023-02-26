@@ -1,4 +1,5 @@
 const express = require("express");
+const { loginAuth, adminAuth } = require("../middlewares/auth");
 const router = express.Router();
 const RoundToShow = require("../models/RoundToShow");
 
@@ -39,7 +40,7 @@ router.get("/:id", async (req, res, next) => {
 });
 
 // Create Round To Show
-router.post("/", async (req, res, next) => {
+router.post("/", loginAuth, adminAuth, async (req, res, next) => {
   const response = { ok: true };
 
   try {
@@ -55,7 +56,7 @@ router.post("/", async (req, res, next) => {
 });
 
 // Update Round To Show By Id
-router.put("/:id", async (req, res, next) => {
+router.put("/:id", loginAuth, adminAuth, async (req, res, next) => {
   const response = { ok: true };
   const { id } = req.params;
   try {
@@ -73,7 +74,7 @@ router.put("/:id", async (req, res, next) => {
 });
 
 // Delete Round To Show By Id
-router.delete("/:id", async (req, res, next) => {
+router.delete("/:id", loginAuth, adminAuth, async (req, res, next) => {
   const response = { ok: true };
   const { id } = req.params;
   try {

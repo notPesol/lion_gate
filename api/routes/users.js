@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-
+const JWT_SECRET = process.env.JWT_SECRET;
 const User = require("../models/User");
 
 // Login User
@@ -27,16 +27,16 @@ router.post("/login", async (req, res, next) => {
         userId: user._id,
         username: user.username,
       },
-      "SECRET_KEY_OK",
+      JWT_SECRET,
       { expiresIn: "24h" }
     );
-    response.payload = { token, isAdmin: user.isAdmin };
+    response.payload = { token, message: "success", isAdmin: user.isAdmin };
   } catch (error) {
     response.ok = false;
     response.message = error.message;
   }
 
-  res.send(response);
+  res.json(response);
 });
 
 router.post("/register", async (req, res, next) => {
@@ -46,9 +46,8 @@ router.post("/register", async (req, res, next) => {
     if (!username || !password) {
       throw new Error("username and password are required");
     }
-    const newUser = new User({ username: username });
     const newPassword = await bcrypt.hash(password, 10);
-    newUser.password = newPassword;
+    const newUser = new User({ username: username, password: newPassword });
     await newUser.save();
     response.payload = { message: "success", username };
   } catch (error) {
@@ -56,7 +55,7 @@ router.post("/register", async (req, res, next) => {
     response.message = error.message;
   }
 
-  res.send(response);
+  res.json(response);
 });
 
 module.exports = router;

@@ -1,14 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const Animal = require("../models/Animal");
+const { loginAuth, adminAuth } = require("../middlewares/auth");
 
 // Get Animal List
 router.get("/", async (req, res, next) => {
   const response = { ok: true };
   try {
-    const result = await Animal.find()
-    // .populate({ path: "animalType" })
-    .exec();
+    const result = await Animal.find().exec();
     response.payload = result;
   } catch (error) {
     response.ok = false;
@@ -22,9 +21,7 @@ router.get("/", async (req, res, next) => {
 router.get("/:id", async (req, res, next) => {
   const response = { ok: true };
   try {
-    const result = await Animal.findById(req.params.id)
-      // .populate({ path: "animalType" })
-      .exec();
+    const result = await Animal.findById(req.params.id).exec();
     response.payload = result;
   } catch (error) {
     response.ok = false;
@@ -35,9 +32,8 @@ router.get("/:id", async (req, res, next) => {
 });
 
 // Create Animal
-router.post("/", async (req, res, next) => {
+router.post("/", loginAuth, adminAuth, async (req, res, next) => {
   const response = { ok: true };
-
   try {
     const newAnimal = new Animal(req.body);
     await newAnimal.save();
@@ -51,7 +47,7 @@ router.post("/", async (req, res, next) => {
 });
 
 // Update Animal By Id
-router.put("/:id", async (req, res, next) => {
+router.put("/:id", loginAuth, adminAuth, async (req, res, next) => {
   const response = { ok: true };
   const { id } = req.params;
   try {
@@ -69,7 +65,7 @@ router.put("/:id", async (req, res, next) => {
 });
 
 // Delete Animal By Id
-router.delete("/:id", async (req, res, next) => {
+router.delete("/:id", loginAuth, adminAuth, async (req, res, next) => {
   const response = { ok: true };
   const { id } = req.params;
   try {
