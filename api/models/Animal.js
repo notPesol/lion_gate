@@ -1,11 +1,15 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const animalSchema = new Schema({
-  name: String,
+  name: {
+    type: String,
+    required: true,
+    unique: true,
+  },
   species: String,
   showDuration: Number,
-  type: String
-})
+  type: String,
+});
 
-module.exports = mongoose.model('animal', animalSchema);
+module.exports = mongoose.model("animal", animalSchema);

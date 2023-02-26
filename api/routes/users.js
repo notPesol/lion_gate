@@ -30,7 +30,12 @@ router.post("/login", async (req, res, next) => {
       JWT_SECRET,
       { expiresIn: "24h" }
     );
-    response.payload = { token, message: "success", isAdmin: user.isAdmin };
+    response.payload = {
+      token,
+      message: "success",
+      id: user._id,
+      isAdmin: user.isAdmin,
+    };
   } catch (error) {
     response.ok = false;
     response.message = error.message;

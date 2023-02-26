@@ -1,10 +1,20 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const stageSchema = new Schema({
-  no: Number,
-  seatAmount: Number,
-  price: Number
-})
+  no: {
+    type: Number,
+    unique: true,
+    required: true,
+  },
+  seatAmount: {
+    type: Number,
+    default: 20,
+  },
+  price: {
+    type: Number,
+    default: 40,
+  },
+});
 
-module.exports = mongoose.model('stage', stageSchema);
+module.exports = mongoose.model("stage", stageSchema);

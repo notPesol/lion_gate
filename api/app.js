@@ -11,6 +11,7 @@ const usersRouter = require("./routes/users");
 const animalsRouter = require("./routes/animals");
 const stagesRouter = require("./routes/stages");
 const roundToShowsRouter = require("./routes/roundToShows");
+const ordersRouter = require("./routes/orders");
 
 connectToDatabase();
 
@@ -26,7 +27,8 @@ app.use("/", indexRouter);
 app.use("/users", usersRouter);
 app.use("/animals", animalsRouter);
 app.use("/stages", stagesRouter);
-app.use("/round_to_show", roundToShowsRouter);
+app.use("/round_to_shows", roundToShowsRouter);
+app.use("/orders", ordersRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
