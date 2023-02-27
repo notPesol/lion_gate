@@ -1,3 +1,4 @@
+const dayjs = require("dayjs");
 const express = require("express");
 const { loginAuth, adminAuth } = require("../middlewares/auth");
 const router = express.Router();
@@ -42,11 +43,31 @@ router.get("/:id", async (req, res, next) => {
 // Create Round To Show
 router.post("/", loginAuth, adminAuth, async (req, res, next) => {
   const response = { ok: true };
-
+  const roundData = req.body;
   try {
-    const newStage = new RoundToShow(req.body);
-    await newStage.save();
-    response.payload = newStage;
+    const roundToShow = await RoundToShow.findOne({
+      time: roundData.time,
+      stage: roundData.stage,
+    }).populate([
+      { path: "animal", select: "showDuration" },
+      { path: "stage", select: "no" },
+    ]);
+
+    if (roundToShow) {
+      const stage = roundToShow.stage;
+      const [hour, min] = roundData.time.split(":");
+      const time = dayjs()
+        .set("hour", hour)
+        .set("minute", min)
+        .format("hh:mm A");
+      throw new Error(
+        `Round To Show with stage no: ${stage.no} and time: ${time} is an exist!`
+      );
+    }
+
+    const newRoundToShow = new RoundToShow(roundData);
+    await newRoundToShow.save();
+    response.payload = newRoundToShow;
   } catch (error) {
     response.ok = false;
     response.message = error.message;
