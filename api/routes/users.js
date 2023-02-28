@@ -9,6 +9,7 @@ const User = require("../models/User");
 router.post("/login", async (req, res, next) => {
   const response = { ok: true };
   const userData = req.body;
+  console.log(req.body);
   try {
     const user = await User.findOne({ username: userData?.username }).exec();
     if (!user) {
@@ -32,8 +33,9 @@ router.post("/login", async (req, res, next) => {
     );
     response.payload = {
       token,
-      message: "success",
+      // message: "success",
       id: user._id,
+      username: user.username,
       isAdmin: user.isAdmin,
     };
   } catch (error) {

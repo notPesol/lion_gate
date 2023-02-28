@@ -1,7 +1,30 @@
-* {
-  box-sizing: border-box;
+:root {
+  --color-blue: #04affb;
+  --color-blue-2: #0751ac;
+  --color-black: #17202a;
+  --color-black-2: #040b19;
 }
 
 body {
-  margin: 0;
+  /* background-color: var(--color-black-2); */
+}
+
+#root {
+  width: 100%;
+  height: 100%;
+}
+
+.content-wrapper {
+  width: 100%;
+  height: calc(100% - 52.69px);
+}
+
+.flex {
+  display: flex;
+}
+
+.main-wrapper {
+  width: 100%;
+  padding: 12px;
+  background-color: white;
 }
