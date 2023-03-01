@@ -1074,7 +1074,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dayjs@npm:^1.11.1":
+"dayjs@npm:^1.11.1, dayjs@npm:^1.11.7":
   version: 1.11.7
   resolution: "dayjs@npm:1.11.7"
   checksum: 5003a7c1dd9ed51385beb658231c3548700b82d3548c0cfbe549d85f2d08e90e972510282b7506941452c58d32136d6362f009c77ca55381a09c704e9f177ebb
@@ -2856,6 +2856,7 @@ __metadata:
     "@types/react-dom": ^18.0.10
     "@vitejs/plugin-react": ^3.1.0
     antd: ^5.2.3
+    dayjs: ^1.11.7
     react: ^18.2.0
     react-dom: ^18.2.0
     react-redux: ^8.0.5

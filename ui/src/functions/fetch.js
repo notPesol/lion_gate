@@ -1,26 +1,26 @@
-export const API_HOST = "http://localhost:8000";
+import { API_HOST } from "../utils/constants";
 
-export async function apiConnect(route, params = null, method = "GET") {
+export const apiConnect = async (path, params, method) => {
   const user = JSON.parse(localStorage.getItem("user"));
+  // console.log(user);
+  const options = {
+    method: method || "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  if (params) {
+    options.body = JSON.stringify(params);
+  }
+  if (user && user?.token) {
+    options.headers.Authorization = `Bearer ${user?.token}`;
+  }
+
   try {
-    const url = `${API_HOST}${route}`;
-    const options = {
-      method,
-      headers: {},
-    };
-    if (user?.token) {
-      options.headers["x-access-token"] = `Bearer ${user?.token}`;
-    }
-    if (params) {
-      options.body = JSON.stringify(params);
-    }
-    const response = await fetch(url, options);
-    if (response?.status !== 200) {
-      throw new Error("response not 200");
-    }
+    const response = await fetch(API_HOST + path, options);
     return await response.json();
   } catch (error) {
-    console.error(error || "เกิดข้อผิดพลาด");
-    return null;
+    throw error;
   }
-}
+};

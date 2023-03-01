@@ -5,13 +5,13 @@ import styles from "./style.module.css";
 
 const genBgColor = (status) => {
   if (status === "loading") {
-    return "#0751ac";
+    return styles.blue;
   }
   if (status === "success") {
-    return "green";
+    return styles.green;
   }
   if (status === "error") {
-    return "red";
+    return styles.red;
   }
   return "";
 };
@@ -23,11 +23,13 @@ const Alert = ({ message, status }) => {
     dispatch(hideUi());
   };
 
+  const className = `${styles.alert} ${genBgColor(status)}`;
+
   return (
     <div
-      onClick={() => dispatch(hideUi())}
+      onClick={hideUiHandler}
       style={{ backgroundColor: genBgColor(status) }}
-      className={styles.alert}
+      className={className}
     >
       {message}
     </div>

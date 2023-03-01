@@ -6,9 +6,11 @@ const MainHead = ({ headText, buttonText, onClick }) => {
   return (
     <div className={styles.mainHead}>
       <div className={styles.headText}>{headText}</div>
-      <Button onClick={onClick} type="primary">
-        {buttonText}
-      </Button>
+      {buttonText && (
+        <Button onClick={onClick} type="primary">
+          {buttonText}
+        </Button>
+      )}
     </div>
   );
 };

@@ -28,3 +28,11 @@ body {
   padding: 12px;
   background-color: white;
 }
+
+.form-item-wrapper {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+}

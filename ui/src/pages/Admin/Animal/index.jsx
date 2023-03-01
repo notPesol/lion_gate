@@ -3,29 +3,31 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { apiConnect } from "../../../functions/fetch";
 import MainHead from "../../../components/MainHead";
+import Loading from "../../../components/Loading";
 
 const initialState = { loading: false, data: [] };
 
-const Stage = () => {
+const Animal = () => {
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
-  const [stagesReq, setStagesReq] = useState(initialState);
+
+  const [animalsReq, setAnimalsReq] = useState(initialState);
 
   const deleteHandler = async () => {
     setLoading(true);
-    const path = "/stages/";
+    const path = "/animals/";
     try {
       const response = await apiConnect(path + selectedId, null, "DELETE");
       if (!response.ok) {
         throw response?.message;
       }
-      message.success("Delete Stages Data Success");
-      const stages = stagesReq.data.filter(
-        (stage) => stage?._id !== selectedId
+      message.success("Delete Animal Data Success");
+      const animals = animalsReq.data.filter(
+        (item) => item?._id !== selectedId
       );
-      setStagesReq((prevState) => ({ ...prevState, data: stages }));
+      setAnimalsReq((prevState) => ({ ...prevState, data: animals }));
       setLoading(false);
     } catch (error) {
       message.error(error);
@@ -40,42 +42,43 @@ const Stage = () => {
     setSelectedId(null);
   };
 
-  const getStages = async () => {
-    setStagesReq(initialState);
-    const path = "/stages";
+  const getAnimals = async () => {
+    setAnimalsReq(initialState);
+    const path = "/animals";
     try {
       const response = await apiConnect(path, null, "GET");
       if (!response.ok) {
         throw response?.message;
       }
       const payload = response.payload;
-      message.success("Load Stages Data Success");
-      setStagesReq({ loading: false, data: payload || [] });
+      message.success("Load Animals Data Successfully");
+      setAnimalsReq({ loading: false, data: payload || [] });
     } catch (error) {
       message.error(error);
-      setStagesReq(initialState);
+      setAnimalsReq(initialState);
     }
   };
 
   useEffect(() => {
-    getStages();
+    getAnimals();
   }, []);
 
   const columns = [
     {
-      title: "Room No",
-      dataIndex: "no",
-      key: "no",
+      title: "Name",
+      dataIndex: "name",
+      key: "name",
+    },
+
+    {
+      title: "Species",
+      dataIndex: "species",
+      key: "species",
     },
     {
-      title: "Seat Amount",
-      dataIndex: "seatAmount",
-      key: "seatAmount",
-    },
-    {
-      title: "Price (Baht)",
-      dataIndex: "price",
-      key: "price",
+      title: "Show Duration",
+      dataIndex: "showDuration",
+      key: "showDuration",
     },
     {
       title: "Actions",
@@ -88,7 +91,7 @@ const Stage = () => {
           <Space>
             <Button
               disabled={loading}
-              onClick={() => navigate(`/admin/stage/${row._id}/edit`)}
+              onClick={() => navigate(`/admin/animal/${row._id}/edit`)}
             >
               Edit
             </Button>
@@ -104,7 +107,11 @@ const Stage = () => {
               okText="Yes"
               cancelText="No"
             >
-              <Button danger disabled={loading} onClick={() => setSelectedId(row._id)}>
+              <Button
+                danger
+                disabled={loading}
+                onClick={() => setSelectedId(row._id)}
+              >
                 Delete
               </Button>
             </Popconfirm>
@@ -114,10 +121,10 @@ const Stage = () => {
     },
   ];
 
-  const renderStagesTable = () => {
-    const { loading, data } = stagesReq;
+  const renderAnimalsTable = () => {
+    const { loading, data } = animalsReq;
     if (loading) {
-      return <Spin />;
+      return <Loading size="large" />;
     }
 
     const dataSource = data.map((stage) => ({ ...stage, key: stage?._id }));
@@ -127,13 +134,13 @@ const Stage = () => {
   return (
     <div className="main-wrapper">
       <MainHead
-        headText="Stage Management"
-        buttonText="New Stage"
-        onClick={() => navigate("/admin/stage/create")}
+        headText="Animal Management"
+        buttonText="New Animal"
+        onClick={() => navigate("/admin/animal/create")}
       />
-      {renderStagesTable()}
+      {renderAnimalsTable()}
     </div>
   );
 };
 
-export default Stage;
+export default Animal;

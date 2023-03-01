@@ -1,23 +1,61 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { Form, Button, Input } from "antd";
 import { loginUser } from "../../redux/slices/authSlice";
 import logo from "../../assets/images/dolphin.jpg";
 import styles from "./style.module.css";
+import { apiConnect } from "../../functions/fetch";
+import { showUi } from "../../redux/slices/uiSlice";
 
 const Login = () => {
+  const auth = useSelector((state) => state.auth);
+
   const [isSignInMode, setIsSignInMode] = useState(true);
 
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (auth?.token) {
+      if (auth?.isAdmin) {
+        navigate("/admin");
+      } else {
+        navigate("/");
+      }
+    }
+  }, [auth?.token]);
+
+  const registerUser = async ({ username, password }) => {
+    dispatch(showUi({ status: "loading", message: "Sign up..." }));
+    try {
+      const response = await apiConnect(
+        "/users/register",
+        { username, password },
+        "POST"
+      );
+      if (!response.ok) {
+        throw response?.message;
+      }
+      console.log(response.payload);
+      dispatch(
+        showUi({
+          status: "success",
+          message: "Register Successfully, Now you can login.",
+        })
+      );
+    } catch (error) {
+      console.log(error);
+      dispatch(showUi({ status: "error", message: error }));
+    }
+  };
 
   const onFinish = (formState) => {
     if (isSignInMode) {
       dispatch(loginUser(formState));
+    } else {
+      registerUser(formState);
     }
-  };
-
-  const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
   };
 
   return (
@@ -28,11 +66,7 @@ const Login = () => {
       <div className={styles.formWrapper}>
         <div className={styles.forForm}>
           <h1>{isSignInMode ? "Sign In" : "Sign Up"}</h1>
-          <Form
-            layout="vertical"
-            onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
-          >
+          <Form layout="vertical" onFinish={onFinish}>
             <Form.Item
               name="username"
               label="Username"
@@ -68,7 +102,7 @@ const Login = () => {
 
           {isSignInMode && (
             <div className={styles.signWrapper}>
-              Don't have an account ?{" "}
+              Don't have an account ?
               <span
                 onClick={() => setIsSignInMode(!isSignInMode)}
                 className={styles.sign}

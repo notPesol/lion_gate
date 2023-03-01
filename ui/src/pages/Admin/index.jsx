@@ -1,7 +1,7 @@
 import { Menu } from "antd";
 import React, { useEffect, useState } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
-import styles from "./style.module.css";
+import { Outlet, useNavigate, useLocation } from "react-router-dom";
+// import styles from "./style.module.css";
 
 const adminMenus = [
   { key: "stage", label: "Stage Management" },
@@ -27,6 +27,10 @@ const Admin = ({ auth }) => {
   const menuItems = createMenus();
 
   const navigate = useNavigate();
+
+  const { pathname } = useLocation();
+  const path = pathname.replace("/admin/", "");
+
   const [mode, setMode] = useState(
     window.innerWidth <= 900 ? "horizontal" : "vertical"
   );
@@ -59,6 +63,7 @@ const Admin = ({ auth }) => {
         style={{ width: 200 }}
         onClick={onMenuClick}
         items={menuItems}
+        defaultSelectedKeys={[path]}
         mode={mode}
       />
       <Outlet />

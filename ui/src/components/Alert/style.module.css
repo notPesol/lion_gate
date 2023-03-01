@@ -9,3 +9,15 @@
   cursor: pointer;
   color: white;
 }
+
+.green {
+  background-color: rgba(0, 128, 0, 0.5);
+}
+
+.blue {
+  background-color: rgba(0, 0, 128, 0.5);
+}
+
+.red {
+  background-color: rgba(128, 0, 0, 0.5);
+}
