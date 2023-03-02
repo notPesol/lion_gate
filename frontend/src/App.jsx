@@ -20,14 +20,13 @@ import EditRound from "./pages/Admin/Round/EditRound";
 // For Logged in users
 import UserAnimals from "./pages/Animal";
 import Home from "./pages/Home";
+import AnimalDetail from "./pages/Animal/AnimalDetail";
 
 const App = () => {
   const auth = useSelector((state) => state.auth);
   const ui = useSelector((state) => state.ui);
   const { status, message } = ui;
   const dispatch = useDispatch();
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (ui.status !== "idle") {
@@ -36,14 +35,6 @@ const App = () => {
       }, 5000);
     }
   }, [ui.status]);
-
-  useEffect(() => {
-    if (auth?.token) {
-      if (!auth?.isAdmin) {
-        navigate("/home");
-      }
-    }
-  }, [auth?.token]);
 
   return (
     <>
@@ -70,6 +61,7 @@ const App = () => {
           {/* For Logged In User */}
           <Route path="home" element={<Home />}>
             <Route path="animal" element={<UserAnimals />} />
+            <Route path="animal/:id" element={<AnimalDetail />} />
           </Route>
         </Route>
         {/* Not Found */}

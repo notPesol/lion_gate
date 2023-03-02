@@ -5,10 +5,6 @@
   --color-black-2: #040b19;
 }
 
-body {
-  /* background-color: var(--color-black-2); */
-}
-
 #root {
   width: 100%;
   height: 100%;
@@ -36,7 +32,6 @@ body {
   flex-direction: column;
   margin: auto;
 }
-
 
 .input-wrapper {
   width: 100%;
