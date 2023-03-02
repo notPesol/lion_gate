@@ -63,9 +63,10 @@ const App = () => {
             <Route path="animal" element={<UserAnimals />} />
             <Route path="animal/:id" element={<AnimalDetail />} />
           </Route>
+          {/* Not Found */}
+          <Route path="*" element={<div>Not Found</div>} />
         </Route>
-        {/* Not Found */}
-        <Route path="*" element={<div>Not Found</div>} />
+        {/* <Route path="*" element={<div>Not Found</div>} /> */}
       </Routes>
     </>
   );
