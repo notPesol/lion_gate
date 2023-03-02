@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Layout from "./components/Layout";
 import Login from "./pages/Login";
 import Admin from "./pages/Admin";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import Stage from "./pages/Admin/Stage";
 import CreateStage from "./pages/Admin/Stage/CreateStage";
 import EditStage from "./pages/Admin/Stage/EditStage";
@@ -17,13 +17,17 @@ import Round from "./pages/Admin/Round";
 import CreateRound from "./pages/Admin/Round/CreateRound";
 import EditRound from "./pages/Admin/Round/EditRound";
 
+// For Logged in users
+import UserAnimals from "./pages/Animal";
+import Home from "./pages/Home";
+
 const App = () => {
   const auth = useSelector((state) => state.auth);
   const ui = useSelector((state) => state.ui);
   const { status, message } = ui;
   const dispatch = useDispatch();
 
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (ui.status !== "idle") {
@@ -33,15 +37,13 @@ const App = () => {
     }
   }, [ui.status]);
 
-  // useEffect(() => {
-  //   if (auth?.token) {
-  //     if (auth?.isAdmin) {
-  //       navigate("/admin");
-  //     } else {
-  //       navigate("/home");
-  //     }
-  //   }
-  // }, [auth?.token]);
+  useEffect(() => {
+    if (auth?.token) {
+      if (!auth?.isAdmin) {
+        navigate("/home");
+      }
+    }
+  }, [auth?.token]);
 
   return (
     <>
@@ -50,6 +52,7 @@ const App = () => {
         {/* <Route path="/" element={<Login />} /> */}
         <Route path="/login" element={<Login />} />
         <Route path="/" element={<Layout auth={auth} />}>
+          {/* Admin */}
           <Route path="admin" element={<Admin auth={auth} />}>
             {/* Stages */}
             <Route path="stage" element={<Stage />} />
@@ -63,6 +66,10 @@ const App = () => {
             <Route path="round" element={<Round />} />
             <Route path="round/create" element={<CreateRound />} />
             <Route path="round/:id/edit" element={<EditRound />} />
+          </Route>
+          {/* For Logged In User */}
+          <Route path="home" element={<Home />}>
+            <Route path="animal" element={<UserAnimals />} />
           </Route>
         </Route>
         {/* Not Found */}

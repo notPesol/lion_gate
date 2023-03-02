@@ -21,7 +21,7 @@ const Login = () => {
       if (auth?.isAdmin) {
         navigate("/admin");
       } else {
-        navigate("/");
+        navigate("/home");
       }
     }
   }, [auth?.token]);

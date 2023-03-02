@@ -36,3 +36,11 @@ body {
   flex-direction: column;
   margin: auto;
 }
+
+
+.input-wrapper {
+  width: 100%;
+  max-width: 400px;
+  margin-left: auto;
+  margin-bottom: 10px;
+}
