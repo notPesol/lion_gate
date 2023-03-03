@@ -1,14 +1,14 @@
 # lion_gate
 
 ## Used Libraries / Frameworks / Database
-### frontend
+### frontend {status: "unReady", message: "not finished, not refactored, not dynamically written eg dynamic form inputs"}
 * React
 * React Router Dom
 * Redux Toolkit
 * Ant Design
 * dayjs
 * qrcode
-### backend
+### backend {status: "finished", message: "finished but functions in routes are not spread to services or controllers"}
 * express
 * mongoose
 * cors
