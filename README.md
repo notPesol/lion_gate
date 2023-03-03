@@ -18,6 +18,9 @@
 ## Used Database
 * mongodb atlas
 
+## E-R Diagram location
+* ./er_diagrams
+
 ## How to run backend
 * set .env file (DB_USERNAME, DB_PASSWORD, JWT_SECRET)
 * cd ./backend
